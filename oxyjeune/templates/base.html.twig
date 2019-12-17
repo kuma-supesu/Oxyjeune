@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="fr-FR">
+<head>
+    <meta charset="UTF-8">
+    <title>Oxy'jeunes</title>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="stylesheet" href="https://jstadelmann.fr/wp-content/themes/Divi/style.css?ver=3.24" type="text/css" media="all">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C700%2C700italic%2C900%2C900italic&amp;ver=5.3#038;subset=cyrillic,greek,vietnamese,latin,greek-ext,latin-ext,cyrillic-ext" type="text/css" media="all">
+    <link rel="canonical" href="https://jstadelmann.fr/">
+    <link rel="shortlink" href="https://jstadelmann.fr/">
+    <link rel="icon" href="https://jstadelmann.fr/wp-content/uploads/2019/11/icon.png" sizes="32x32">
+    <link rel="stylesheet" href="https://jstadelmann.fr/wp-content/cache/et/196/et-core-unified-15760147241602.min.css">
+</head>
+<body class="et_non_fixed_nav et_header_style_left">
+<header id="main-header" data-height-onload="80" data-height-loaded="true" data-fixed-height-onload="80">
+    <a href="https://jstadelmann.fr/"><img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes" id="logo" data-height-percentage="54" data-actual-width="856" data-actual-height="253"></a>
+</header>
+<div class="et_pb_row et_pb_row_0 et_pb_row_6col et_pb_image et_pb_image_0">
+    <a href="https://jstadelmann.fr/" class="et_pb_image_wrap"><img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes"></a>
+</div>
+<div id="et-main-area">{% block body %}{% endblock %}</div>
+</body>
+{% block javascripts %}{% endblock %}
 </html>
+
+
+
+
+

@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="row text-center">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <a class="btn btn-secondary btn text-center" href="{{ url("planningList") }}" role="button">Retour à la liste</a>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Planning du {{ date.date|date("d-m-Y") }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                {% for list in data|sort((a, b) => a.date <=> b.date) %}
+                                    <table>
+                                        <tr>
+                                            {% set heures = list.heure|date_modify('+2 hours')|date('H:i')  %}
+                                            <td>Tranche horaire :</td>
+                                            <td>{{ list.heure|date("H:i") }} - {{ heures }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Participants :</td>
+                                            {% for noms in list.noms %}
+                                            <td>{{ noms }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    </table>
+                                {% endfor %}
+                                <td><a href="{{ url("planningInscription", {slug: date.date|date("d-m-Y")}) }}"><button class="btn-info btn">{{ date.date|date("d-m-Y") }}</button></a></td>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% for list in data|sort((a, b) => a.date <=> b.date)|reverse|column('date')|reduce((unique, item) => item in unique ? unique : unique|merge([item]), []) %}
+        <tbody>
+        <td><a href="{{ url("planningInfo", {slug: list }) }}"><button class="btn-info btn">{{ list }}</button></a></td>
+        </tbody>
+    {% endfor %}
+{% endblock %}
