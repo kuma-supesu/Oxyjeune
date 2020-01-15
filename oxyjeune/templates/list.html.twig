@@ -1,8 +1,12 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% for list in data|sort((a, b) => a.date <=> b.date)|reverse|column('date')|reduce((unique, item) => item in unique ? unique : unique|merge([item]), []) %}
+    <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+    {% for list in planning|sort((a, b) => a.debut <=> b.debut)|reverse %}
         <tbody>
-        <td><a href="{{ url("planningInfo", {slug: list }) }}"><button class="btn-info btn">{{ list }}</button></a></td>
+            <td><a href="{{ path("planningInfo", {slug: list.debut|date("d-m-Y") }) }}"><button class="btn-info btn">{{ list.debut|format_date("long",locale="fr") }} - {{ list.event|upper }}</button></a></td>
         </tbody>
     {% endfor %}
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

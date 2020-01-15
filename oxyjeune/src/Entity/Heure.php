@@ -3,37 +3,35 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Plannig as Planning;
+use App\Entity\Journee as Journee;
 
 /**
- * Heure
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\HeureRepository")
  * @ORM\Table(name="heure")
  */
 class Heure
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Planning", inversedBy="date")
-     */
-    private $planning;
-
-    /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(name="heure", type="time")
+     * @ORM\Column(type="time")
      */
-    private $heure;
+    private $PlageHoraire;
 
     /**
-     * @ORM\Column(name="noms", type="array", nullable=TRUE)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $noms;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Journee", inversedBy="heures")
+     */
+    private $journee;
 
 
     public function getId(): ?int
@@ -41,24 +39,31 @@ class Heure
         return $this->id;
     }
 
-    public function getHeure(): ?\DateTimeInterface
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getPlageHoraire(): ?\DateTimeInterface
     {
-        return $this->heure;
+        return $this->PlageHoraire;
     }
 
-    public function setHeure(\DateTimeInterface $heure): self
+    /**
+     * @param \DateTimeInterface $PlageHoraire
+     * @return $this
+     */
+    public function setPlageHoraire(\DateTimeInterface $PlageHoraire): self
     {
-        $this->heure = $heure;
+        $this->PlageHoraire = $PlageHoraire;
 
         return $this;
     }
 
-    public function getNoms(): ?array
+    public function getNoms(): ?string
     {
         return $this->noms;
     }
 
-    public function setNoms(?array $noms): self
+    public function setNoms(string $noms): self
     {
         $this->noms = $noms;
 
@@ -66,28 +71,22 @@ class Heure
     }
 
     /**
-     * Set planning
-     *
-     * @param \App\Entity\Planning $planning
-     *
-     * @return Heure
+     * @return Journee
      */
-    public function setPlanning(Planning $planning = null)
+    public function getJournee(): ?Journee
     {
-        $this->planning = $planning;
-
-        return $this;
+        return $this->journee;
     }
 
     /**
-     * Get planning
-     *
-     * @return \App\Entity\Planning
+     * @param Journee $journee
+     * @return $this
      */
-    public function getPlanning()
+    public function setJournee(?Journee $journee): self
     {
-        return $this->planning;
-    }
+        $this->journee = $journee;
 
+        return $this;
+    }
 
 }

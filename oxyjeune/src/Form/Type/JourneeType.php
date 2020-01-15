@@ -2,43 +2,43 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Planning;
+use App\Entity\Journee;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlanningType extends AbstractType
+class JourneeType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('event', TextType::class, array('label' => 'Nom de l\'évènement'))
-            ->add('debut', DateType::class, array(
-                'widget' => 'choice',
+            ->add('date', DateType::class, array('widget' => 'choice',
                 'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy',
-                'label' => 'Date de début de l\'évènement'))
-            ->add('journees', CollectionType::class, array(
-                'entry_type' => JourneeType::class,
+            ))
+            ->add('nombrePersonnes', IntegerType::class)
+            ->add('dureeHeure', NumberType::class)
+            ->add('dureeMinute', NumberType::class)
+            ->add('heures', CollectionType::class, array(
+                'entry_type' => HeureType::class,
                 'entry_options' => ['label' => false],
                 'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'prototype_name' => '__journee__'
-            ))
-            ->add('save', SubmitType::class)
+        ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Planning::class,
+            'data_class' => Journee::class,
             "allow_extra_fields" => true,
         ]);
     }

@@ -4,7 +4,7 @@
         <div class="row text-center">
             <div class="col-4"></div>
             <div class="col-4">
-                <a class="btn btn-secondary btn text-center" href="{{ url("planningList") }}" role="button">Retour à la liste</a>
+                <a class="btn btn-secondary btn text-center" href="{{ path("planningListe") }}" role="button">Retour à la liste</a>
             </div>
             <div class="col-4"></div>
         </div>
@@ -12,28 +12,28 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Planning du {{ date.date|date("d-m-Y") }}</h2>
+                        <h2> Planning du {{ planning.event|upper }} </h2>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                {% for list in data|sort((a, b) => a.date <=> b.date) %}
+                                {% for list in planning.journees|sort((a, b) => a.date <=> b.date) %}
                                     <table>
                                         <tr>
-                                            {% set heures = list.heure|date_modify('+2 hours')|date('H:i')  %}
-                                            <td>Tranche horaire :</td>
-                                            <td>{{ list.heure|date("H:i") }} - {{ heures }}</td>
+                                            <td>Date : {{ list.date|format_date(locale="fr") }}</td>
                                         </tr>
+                                        {% for heure in list.heures %}
                                         <tr>
-                                            <td>Participants :</td>
-                                            {% for noms in list.noms %}
-                                            <td>{{ noms }}</td>
-                                            {% endfor %}
+                                            <th>Participants :</th>
+                                            <td>{{ heure.noms }}</td>
+                                            <th>Horaires :</th>
+                                                <td>
+                                                    <button class="btn-info btn">{{ heure.plageHoraire|format_time("short", locale="fr") }} - {{ heure.plageHoraire|date_modify("+" ~ list.dureeHeure ~ " Hours " ~ list.dureeMinute ~ " min")|format_time("short", locale="fr") }}</button>
+                                                </td>
                                         </tr>
+                                        {% endfor %}
                                     </table>
                                 {% endfor %}
-                                <td><a href="{{ url("planningInscription", {slug: date.date|date("d-m-Y")}) }}"><button class="btn-info btn">{{ date.date|date("d-m-Y") }}</button></a></td>
-
                             </div>
                         </div>
                     </div>

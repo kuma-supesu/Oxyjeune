@@ -2,122 +2,97 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Heure as Heure;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Journee as Journee;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
- * Planning
  * @ORM\Entity(repositoryClass="App\Repository\PlanningRepository")
+ * @ORM\Table(name="planning")
  */
 class Planning
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @Assert\Date()
-     *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(type="string")
      */
-    private $date;
+    private $event;
 
     /**
-     * @ORM\Column(name="duree", type="integer")
+     * @ORM\Column(type="date")
      */
-    private $duree;
+    private $debut;
 
     /**
-     * @ORM\Column(name="iteration", type="integer", options={"default" : 0})
+     * @ORM\OneToMany(targetEntity="Journee", mappedBy="planning", cascade={"persist", "remove"})
      */
-    private $iteration;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Heure", mappedBy="date", cascade={"persist", "remove"})
-     */
-    private $heures;
+    private $journees;
 
     public function __construct()
     {
-        $this->heures= new ArrayCollection();
+        $this->journees = new ArrayCollection();
     }
-
-    /**GETTER & SETTER**/
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIteration(): ?int
+    public function getJournees(): Collection
     {
-        return $this->iteration;
-    }
-
-    public function setIteration(int $iteration): self
-    {
-        $this->iteration = $iteration;
-
-        return $this;
-    }
-
-    public function getDuree(): ?int
-    {
-        return $this->duree;
-    }
-
-    public function setDuree(int $duree): self
-    {
-        $this->duree = $duree;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
+        return $this->journees;
     }
 
     /**
-     * Set heure
-     *
-     * @param \App\Entity\Heure $heure
-     *
-     * @return heure
+     * @param Journee $journee
+     * @return $this
      */
-    public function addHeure(Heure $heure = null)
+    public function addJournee(Journee $journee): self
     {
-        if ($this->heure->contains($heure)) {
-            $this->heures->add($heure);
-        }
-
-        $heure->setCommande($this);
-        $this->heures->add($heure);
+        $journee->setPlanning($this);
+        $this->journees->add($journee);
         return $this;
     }
 
-    /**
-     * Get heure
-     *
-     * @return \App\Entity\Heure
-     */
-    public function getHeures()
+    public function removeJournee(Journee $journee): self
     {
-        if ($this->heures->isEmpty()) {
-            return [];
+        if ($this->journees->contains($journee)) {
+            $this->journees->removeElement($journee);
         }
-        return $this->heures->toArray();
+        return $this->journees;
     }
+
+    public function getEvent(): ?string
+    {
+        return $this->event;
+    }
+
+    public function setEvent($event): self
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    public function getDebut(): ?\DateTimeInterface
+    {
+        return $this->debut;
+    }
+
+    public function setDebut(\DateTimeInterface $debut): self
+    {
+        $this->debut = $debut;
+
+        return $this;
+    }
+
 }
