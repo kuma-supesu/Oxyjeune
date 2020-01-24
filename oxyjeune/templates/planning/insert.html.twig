@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
+    {{ form_start(form) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.nombrePersonnes) }}
+    {{ form_row(form.dureeHeure) }}
+    {{ form_row(form.dureeMinute) }}
+    <button type="button" name="__planning__" class="btn btn-primary btn-lg">Ajouter une plage horaire</button>
+    <ul class="date ml-5" data-prototype="{{ form_row(form.heures.vars.prototype)|e('html_attr') }}">
+    </ul>
+    <button class="btn btn-secondary" type="submit" id="journee_save" name="journee[save]">Valider</button>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+            const $newLinkLi = $('<li></li>');
+            const $container = $("ul.date");
+            var $data;
+
+            jQuery(document).ready(function() {
+                let $collectionHolder = $container;
+                $collectionHolder.append($newLinkLi);
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                $('[name="__planning__"]').on('click', function() {
+                    addTagForm($collectionHolder, $newLinkLi);
+                });
+            });
+
+            function addTagForm($collectionHolder, $newLinkLi) {
+                let prototype = $collectionHolder.data('prototype');
+                let index = $collectionHolder.data('index');
+                let newForm = prototype.replace(/__name__/g, index);
+                $collectionHolder.data('index', index + 1);
+                let $newFormLi = $('<ul id="date_' + index + '" class="date row"></ul>').append(newForm);
+                $newFormLi.append('<button type="button" class="remove-tag btn btn-danger">Supprimer</button>');
+                $newLinkLi.before($newFormLi);
+                $('.remove-tag').click(function () {
+                    $(this).parent().remove();
+                    return false;
+                });
+            }
+    </script>
+{% endblock %}

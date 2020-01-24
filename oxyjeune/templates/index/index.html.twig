@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a href="{{ url("planningCreation") }}"><button class="btn-dark btn">Creer un nouveau Planning</button></a>
+    <a href="{{ url("tableauCreation") }}"><button class="btn-dark btn">Creer un nouveau Tableau</button></a>
+    <a href="{{ url("planningListe") }}"><button class="btn-dark btn">Planning des évènements</button></a>
+    <a href="{{ url("tableauListe") }}"><button class="btn-dark btn">Tableaux</button></a>
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <H2>Bienvenue {{ app.user.nomComplet }} !</H2>
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

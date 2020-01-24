@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="row text-center">
+            <div class="col-3">
+                <a class="btn btn-secondary btn text-center" href="{{ path("planningListe") }}" role="button">Retour à la liste</a>
+            </div>
+            <div class="col-3">
+                <a href="{{ path("planningInsertion", {slug: planning.debut|date("d-m-Y")}) }}"><button class="btn-success btn">Insérer une date</button></a>
+            </div>
+            <div class="col-3">
+                <a href="{{ path("planningModification", {slug: planning.debut|date("d-m-Y")}) }}"><button class="btn-warning btn">Modifier</button></a>
+            </div>
+            <div class="col-3">
+                <a href="{{ path("planningSuppression", {slug: planning.debut|date("d-m-Y")}) }}"><button class="btn-danger btn">Supprimer</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-muted"> Planning | {{ planning.event|upper }} </h2>
+            </div>
+        <div class="row row-cols-1 row-cols-md-4">
+            {% for list in planning.journees|sort((a, b) => a.date <=> b.date) %}
+            {% set journee = loop.index0 %}
+            {% for heure in list.heures %}
+                <div class="card-group">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title text-muted">{{ list.date|format_date(locale="fr") }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ heure.plageHoraire|format_time("short", locale="fr") }} - {{ heure.plageHoraire|date_modify("+" ~ list.dureeHeure ~ " Hours " ~ list.dureeMinute ~ " min")|format_time("short", locale="fr") }}</h6>
+                        <p class="card-text">
+                            <h6 class="text-muted">Participants : </h6>
+                            {% for noms in heure.noms %}
+                                <p>{{ noms }}</p>
+                            {% endfor %}
+                        </p>
+                        <div class="mt-auto ">
+                            {% if heure.noms|length < list.nombrePersonnes %}
+                                {% if user is same as (heure.noms) %}
+                                    <a href="{{ path("planningDesinscription", {journee:  journee, heure: loop.index0}) }}"><button class="btn-warning btn">Se désinscrire</button></a>
+                                {% else %}
+                                    <a href="{{ path("planningInscription", {journee:  journee, heure: loop.index0}) }}"><button class="btn-info btn">S'inscrire</button></a>
+                                {% endif %}
+                            {% else %}
+                                <button class="btn-success btn" disabled>Complet !</button>
+                                {% for noms in heure.noms %}
+                                    {% if app.user.nomComplet is same as (noms) %}
+                                        <a href="{{ path("planningDesinscription", {journee:  journee, heure: loop.index0}) }}"><button class="btn-warning btn">Se désinscrire</button></a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

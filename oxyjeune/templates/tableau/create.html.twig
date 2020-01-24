@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+{{ form_start(form) }}
+    {{ form_row(form.classeur) }}
+    {{ form_row(form.annee.year) }}
+    {{ form_widget(form.annee.day,{'attr': { 'style': 'display:none' }}) }}
+    {{form_widget(form.annee.month,{'attr': { 'style': 'display:none' }}) }}
+    {{ form_row(form.save) }}
+{{ form_end(form) }}
+{% endblock %}
+    {% block javascripts %}
+       {{ parent() }}
+{% endblock %}

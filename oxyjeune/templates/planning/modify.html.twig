@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
+    {{ form_start(form) }}
+    {{ form_row(form.event) }}
+    {{ form_row(form.description|raw) }}
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}

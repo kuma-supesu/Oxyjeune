@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Journee as Journee;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HeureRepository")
@@ -24,33 +25,26 @@ class Heure
     private $PlageHoraire;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
-    private $noms;
+    private $noms = [];
 
     /**
      * @ORM\ManyToOne(targetEntity="Journee", inversedBy="heures")
+     * @JoinColumn(name="journee_id", referencedColumnName="id")
      */
     private $journee;
-
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
     public function getPlageHoraire(): ?\DateTimeInterface
     {
         return $this->PlageHoraire;
     }
 
-    /**
-     * @param \DateTimeInterface $PlageHoraire
-     * @return $this
-     */
     public function setPlageHoraire(\DateTimeInterface $PlageHoraire): self
     {
         $this->PlageHoraire = $PlageHoraire;
@@ -58,30 +52,23 @@ class Heure
         return $this;
     }
 
-    public function getNoms(): ?string
+    public function getNoms(): ?array
     {
         return $this->noms;
     }
 
-    public function setNoms(string $noms): self
+    public function setNoms(array $noms): self
     {
         $this->noms = $noms;
 
         return $this;
     }
 
-    /**
-     * @return Journee
-     */
     public function getJournee(): ?Journee
     {
         return $this->journee;
     }
 
-    /**
-     * @param Journee $journee
-     * @return $this
-     */
     public function setJournee(?Journee $journee): self
     {
         $this->journee = $journee;

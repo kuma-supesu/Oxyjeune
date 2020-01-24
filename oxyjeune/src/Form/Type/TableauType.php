@@ -2,42 +2,45 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Planning;
+use App\Entity\Tableau;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlanningType extends AbstractType
+class TableauType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('event', TextType::class, array('label' => 'Nom de l\'évènement'))
-            ->add('description', TextareaType::class, array(
-                'required' => false,
+            ->add('classeur', TextType::class)
+            ->add('annee', DateType::class, array(
+                'label' => 'Annee',
+                'years' => range(date('Y')-10, date('Y')+10),
+                'format' => 'yyyy-dd-MM',
             ))
-            ->add('journees', CollectionType::class, array(
-                'entry_type' => JourneeType::class,
+            ->add('tableauLignes', CollectionType::class, array(
+                'entry_type' => TableauLigneType::class,
                 'entry_options' => ['label' => false],
                 'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'required' => true,
-                'prototype_name' => '__journee__'
+                'prototype_name' => '__tableau__'
             ))
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, array(
+                'label' => 'Valider'
+            ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Planning::class,
+            'data_class' => Tableau::class,
             "allow_extra_fields" => true,
         ]);
     }

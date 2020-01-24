@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+    {{ form_start(form) }}
+    {{ form_row(form.event) }}
+    {{ form_row(form.description|raw) }}
+    <button type="button" name="__planning__" class="btn btn-primary btn-lg">Ajouter une date</button>
+        <ul class="date ml-5" data-prototype="{{ form_row(form.journees.vars.prototype.date)|e('html_attr') }}{{ form_row(form.journees.vars.prototype.dureeHeure)|e('html_attr') }}{{ form_row(form.journees.vars.prototype.dureeMinute)|e('html_attr') }}{{ form_row(form.journees.vars.prototype.nombrePersonnes)|e('html_attr') }}" data-prototype-h="{{ form_row(form.journees.vars.prototype.heures.vars.prototype)|e('html_attr') }}">
+        </ul>
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
+
+{% endblock %}
+    {% block javascripts %}
+       {{ parent() }}
+        <script type="text/javascript" src="{{ asset('src/gestion-planning.js') }}"></script>
+{% endblock %}

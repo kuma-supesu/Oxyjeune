@@ -7,6 +7,7 @@ use App\Entity\Heure as Heure;
 use App\Entity\Planning as Planning;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JourneeRepository")
@@ -48,6 +49,7 @@ class Journee
 
     /**
      * @ORM\ManyToOne(targetEntity="Planning", inversedBy="journees")
+     * @JoinColumn(name="planning_id", referencedColumnName="id")
      */
     private $planning;
 
@@ -61,18 +63,11 @@ class Journee
         return $this->id;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    /**
-     * @param \DateTimeInterface $date
-     * @return $this
-     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -97,10 +92,6 @@ class Journee
         return $this->heures;
     }
 
-    /**
-     * @param Heure $heure
-     * @return $this
-     */
     public function addHeure(Heure $heure): self
     {
         $heure->setJournee($this);
@@ -116,18 +107,11 @@ class Journee
         return $this->heures;
     }
 
-    /**
-     * @return Planning
-     */
     public function getPlanning(): ?Planning
     {
         return $this->planning;
     }
 
-    /**
-     * @param Planning $planning
-     * @return $this
-     */
     public function setPlanning(?Planning $planning): self
     {
         $this->planning = $planning;
@@ -135,33 +119,21 @@ class Journee
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDureeMinute()
     {
         return $this->dureeMinute;
     }
 
-    /**
-     * @param mixed $dureeMinute
-     */
     public function setDureeMinute($dureeMinute): void
     {
         $this->dureeMinute = $dureeMinute;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDureeHeure()
     {
         return $this->dureeHeure;
     }
 
-    /**
-     * @param mixed $dureeHeure
-     */
     public function setDureeHeure($dureeHeure): void
     {
         $this->dureeHeure = $dureeHeure;

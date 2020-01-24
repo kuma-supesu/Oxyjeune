@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Journee as Journee;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PlanningRepository")
@@ -26,6 +24,11 @@ class Planning
      * @ORM\Column(type="string")
      */
     private $event;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     /**
      * @ORM\Column(type="date")
@@ -52,10 +55,6 @@ class Planning
         return $this->journees;
     }
 
-    /**
-     * @param Journee $journee
-     * @return $this
-     */
     public function addJournee(Journee $journee): self
     {
         $journee->setPlanning($this);
@@ -91,6 +90,18 @@ class Planning
     public function setDebut(\DateTimeInterface $debut): self
     {
         $this->debut = $debut;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

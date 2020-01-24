@@ -8,9 +8,11 @@
     <link rel="canonical" href="https://jstadelmann.fr/">
     <link rel="shortlink" href="https://jstadelmann.fr/">
     <link rel="icon" href="https://jstadelmann.fr/wp-content/uploads/2019/11/icon.png" sizes="32x32">
-
+    <link href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" id="et-core-unified-cached-inline-styles" href="https://jstadelmann.fr/wp-content/cache/et/196/et-core-unified-15786804535911.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdn.tiny.cloud/1/1d4emzif0qn5hpnu4ufb2xa1zxf8mmacdd7y8hffhqsop6lx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>tinymce.init({selector: '#planning_description'});</script>
 </head>
 <body class="et_non_fixed_nav et_header_style_left">
 <header id="main-header" data-height-onload="80" data-height-loaded="true" data-fixed-height-onload="80">
@@ -18,6 +20,9 @@
 </header>
 <div class="et_pb_row et_pb_row_0 et_pb_row_6col et_pb_image et_pb_image_0">
     <a href="https://jstadelmann.fr/" class="et_pb_image_wrap"><img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes"></a>
+    {% if app.user == true %}
+    <a href="{{ path('app_logout') }}"><button class="btn-warning btn">se déconnecter</button></a>
+    {% endif %}
 </div>
 <div id="et-main-area">{% block body %}{% endblock %}</div>
 </body>
