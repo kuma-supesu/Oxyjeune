@@ -26,14 +26,19 @@ class Planning
     private $event;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $debut;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
 
     /**
      * @ORM\OneToMany(targetEntity="Journee", mappedBy="planning", cascade={"persist", "remove"})
@@ -102,6 +107,19 @@ class Planning
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

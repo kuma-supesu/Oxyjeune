@@ -2,9 +2,20 @@
 {% block body %}
     <a class="btn btn-secondary btn text-center" href="{{ path("tableauLigneInfo", {tableau: tableau, ligne: ligne }) }}" role="button">Retour à la ligne</a>
     <form method="post">
-    {{ form_row(form.dateVersement) }}
-    {{ form_row(form.sommeVersement) }}
-        <button class="btn btn-secondary" type="submit" id="tableauPaiement_save" name="tableauPaiement[save]">Ajouter</button>
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Inserer un paiement</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Date du versement</h6>
+                    <p class="card-text">{{ form_widget(form.dateVersement) }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">Methode de paiement</h6>
+                    <p class="card-text">{{ form_widget(form.moyenPaiement) }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">Montant du versement</h6>
+                    <p class="card-text">{{ form_widget(form.sommeVersement) }}</p>
+                    <button class="btn btn-secondary" type="submit" id="tableauPaiement_save" name="tableauPaiement[save]">Ajouter</button>
+                </div>
+            </div>
+        </div>
         {{ form_row(form._token) }}
     </form>
 {% endblock %}

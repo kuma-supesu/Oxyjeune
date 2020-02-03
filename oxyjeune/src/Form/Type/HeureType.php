@@ -12,7 +12,11 @@ class HeureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('plageHoraire', TimeType::class, array('widget' => 'single_text'));
+        $builder->add('plageHoraire', TimeType::class, array(
+            'widget' => 'single_text',
+            'label' => false,
+            'attr' => ['class' => 'mt-3', 'style' => 'width: 10em'],
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

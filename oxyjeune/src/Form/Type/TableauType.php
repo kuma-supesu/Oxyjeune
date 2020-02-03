@@ -32,7 +32,8 @@ class TableauType extends AbstractType
                 'prototype_name' => '__tableau__'
             ))
             ->add('save', SubmitType::class, array(
-                'label' => 'Valider'
+                'label' => 'Valider',
+                'attr' => ['class' => 'btn-success btn'],
             ))
         ;
     }

@@ -21,9 +21,15 @@ class JourneeType extends AbstractType
                 'years' => range(date('Y'), date('Y')+10),
                 'format' => 'dd-MM-yyyy',
             ))
-            ->add('nombrePersonnes', IntegerType::class)
-            ->add('dureeHeure', NumberType::class)
-            ->add('dureeMinute', NumberType::class)
+            ->add('nombrePersonnes', IntegerType::class, array(
+                'attr' => ['style' => 'width: 5em', 'placeholder' => '1,2,3...'],
+            ))
+            ->add('dureeHeure', NumberType::class, array(
+                'attr' => ['class' => 'mr-2', 'style' => 'width: 2em', 'placeholder' => 'h'],
+            ))
+            ->add('dureeMinute', NumberType::class, array(
+                'attr' => ['class' => 'ml-2', 'style' => 'width: 2em', 'placeholder' => 'm'],
+            ))
             ->add('heures', CollectionType::class, array(
                 'entry_type' => HeureType::class,
                 'entry_options' => ['label' => false],

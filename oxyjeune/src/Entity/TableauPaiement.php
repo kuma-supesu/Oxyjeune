@@ -26,6 +26,11 @@ class TableauPaiement
     private $dateVersement;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $moyenPaiement;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $sommeVersement;
@@ -49,6 +54,18 @@ class TableauPaiement
     public function setDateVersement(DateTimeInterface $dateVersement): self
     {
         $this->dateVersement = $dateVersement;
+
+        return $this;
+    }
+
+    public function getMoyenPaiement(): ?string
+    {
+        return $this->moyenPaiement;
+    }
+
+    public function setMoyenPaiement(string $moyenPaiement): self
+    {
+        $this->moyenPaiement = $moyenPaiement;
 
         return $this;
     }

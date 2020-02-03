@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\TableauPaiement;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +20,13 @@ class TableauPaiementType extends AbstractType
                 'years' => range(date('Y')-10, date('Y')+10),
                 'format' => 'dd-MM-yyyy',
             ))
+            ->add('moyenPaiement', ChoiceType::class, array(
+                'label' => 'Methode de paiement',
+                'choices'  => [
+                    'Espece' => 'espece',
+                    'Chèque' => 'cheque',
+                    'Bon de la CAF' => 'bon caf',
+                ],))
             ->add('sommeVersement', NumberType::class, array(
                 'label' => 'Somme versée',
             ));

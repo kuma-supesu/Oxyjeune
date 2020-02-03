@@ -19,6 +19,18 @@ class HeureRepository extends ServiceEntityRepository
         parent::__construct($registry, Heure::class);
     }
 
+    public function findHeuresByUser($user)
+    {
+        return $this->createQueryBuilder('h')
+            ->andWhere(':user member of h.users')
+            ->setParameter('user', $user)
+            ->orderBy('h.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Heure
     {

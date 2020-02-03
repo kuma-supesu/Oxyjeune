@@ -28,11 +28,6 @@ class TableauLigne
     private $nom;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $moyenPaiement;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $paiementXFois;
@@ -71,18 +66,6 @@ class TableauLigne
      public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getMoyenPaiement(): ?string
-    {
-        return $this->moyenPaiement;
-    }
-
-    public function setMoyenPaiement(string $moyenPaiement): self
-    {
-        $this->moyenPaiement = $moyenPaiement;
 
         return $this;
     }

@@ -2,11 +2,20 @@
 {% block body %}
     <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
 {{ form_start(form) }}
-    {{ form_row(form.classeur) }}
-    {{ form_row(form.annee.year) }}
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Creer un tableau</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Nom du tableau</h6>
+                <p class="card-text">{{ form_widget(form.classeur) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Année du tableau</h6>
+                <p class="card-text">{{ form_widget(form.annee.year) }}</p>
+                {{ form_row(form.save) }}
+            </div>
+        </div>
     {{ form_widget(form.annee.day,{'attr': { 'style': 'display:none' }}) }}
     {{form_widget(form.annee.month,{'attr': { 'style': 'display:none' }}) }}
-    {{ form_row(form.save) }}
+    </div>
 {{ form_end(form) }}
 {% endblock %}
     {% block javascripts %}

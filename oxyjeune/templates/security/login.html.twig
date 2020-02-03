@@ -23,19 +23,13 @@
                         <label for="inputPassword" class="sr-only">Mot de passe</label>
                         <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Password" required>
                         <button class="btn btn-lg btn-primary btn-block mt-1" type="submit">Connexion</button>
+                        </div>
+                        <a class="btn btn-link text-center" style="width: 100%" href="{{ path("userExist") }}" role="button">Mot de passe oublié</a>
                     </form>
                     </div>
                     </div>
                 </div>
                 <div class="col-4"></div>
             </div>
-        </div>
-    {% endif %}
-    {% if app.user %}
-    {% for message in app.flashes('success') %}
-    <div class="flash-success">
-        {{ message }}
-    </div>
-    {% endfor %}
     {% endif %}
 {% endblock %}

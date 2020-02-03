@@ -17,15 +17,14 @@
         </div>
         <div class="row mt-3">
             <div class="col-12">
-                <h2 class="text-muted"> Tableau | {{ tableau.classeur|upper }} </h2>
+                <h2 class="text-muted">Tableau | {{ tableau.classeur|upper }}</h2>
                 <table class="table table-striped table-dark" id="table" data-toggle="table" data-search="true" >
                     <thead>
                     <tr>
                         <th class="w-5" scope="col" data-sortable="true">#</th>
                         <th class="w-25" scope="col" data-sortable="true">Noms</th>
-                        <th class="w-20" scope="col" data-sortable="true">Moyen Paiement</th>
                         <th class="w-20" scope="col" data-sortable="true">Paiement en</th>
-                        <th class="w-10" scope="col" data-sortable="true">Payée</th>
+                        <th class="w-10" scope="col" data-sortable="true">Payée en totalité</th>
                         <th class="w-25 text-center" scope="col"></th>
                     </tr>
                     </thead>
@@ -34,7 +33,6 @@
                     <tr>
                         <th scope="row">{{loop.index}}</th>
                         <td> {{ list.nom }} </td>
-                        <td> {{ list.moyenPaiement|capitalize }} </td>
                         <td> {{ list.paiementXFois}} fois </td>
                         <td> {% if list.payee is same as(true) %}
                                 Oui
@@ -42,7 +40,7 @@
                                 Non
                             {% endif %}
                         </td>
-                        <td><a href="{{ path("tableauLigneInfo", {tableau: tableau.id, ligne: list.id }) }}"><button class="btn-warning btn">Voir détails</button></a></td>
+                        <td><a href="{{ path("tableauLigneInfo", {tableau: tableau.id, ligne: list.id }) }}"><button class="btn-warning btn">Voir les détails</button></a></td>
                     </tr>
                     {% endfor %}
                     </tbody>

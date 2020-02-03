@@ -2,14 +2,25 @@
 {% block body %}
     <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
     {{ form_start(form) }}
-    {{ form_row(form.date) }}
-    {{ form_row(form.nombrePersonnes) }}
-    {{ form_row(form.dureeHeure) }}
-    {{ form_row(form.dureeMinute) }}
-    <button type="button" name="__planning__" class="btn btn-primary btn-lg">Ajouter une plage horaire</button>
-    <ul class="date ml-5" data-prototype="{{ form_row(form.heures.vars.prototype)|e('html_attr') }}">
-    </ul>
-    <button class="btn btn-secondary" type="submit" id="journee_save" name="journee[save]">Valider</button>
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Inserer une date</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Date</h6>
+                <p class="card-text">{{ form_widget(form.date) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
+                <p class="card-text">{{ form_widget(form.nombrePersonnes) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Duree plage</h6>
+                <div class="d-flex justify-content-center">
+                <p class="card-text">{{ form_widget(form.dureeHeure) }}:</p>
+                <p class="card-text">{{ form_widget(form.dureeMinute) }}</p>
+            </div>
+                <button type="button" name="__planning__" class="btn btn-primary btn-sm">Ajouter une plage horaire</button>
+                <ul class="date ml-5" data-prototype="{{ form_row(form.heures.vars.prototype)|e('html_attr') }}"></ul>
+                <button class="btn btn-secondary" type="submit" id="journee_save" name="journee[save]">Valider</button>
+            </div>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
 {% block javascripts %}
@@ -35,7 +46,7 @@
                 let newForm = prototype.replace(/__name__/g, index);
                 $collectionHolder.data('index', index + 1);
                 let $newFormLi = $('<ul id="date_' + index + '" class="date row"></ul>').append(newForm);
-                $newFormLi.append('<button type="button" class="remove-tag btn btn-danger">Supprimer</button>');
+                $newFormLi.append('<button type="button" class="remove-tag mt-3 btn btn-sm btn-danger">X</button>');
                 $newLinkLi.before($newFormLi);
                 $('.remove-tag').click(function () {
                     $(this).parent().remove();

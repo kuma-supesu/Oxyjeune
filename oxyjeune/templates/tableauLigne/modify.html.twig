@@ -3,7 +3,19 @@
     <a class="btn btn-secondary btn text-center" href="{{ path("tableauLigneInfo", {tableau: tableau, ligne: ligne }) }}" role="button">Retour à la ligne</a>
 {{ form_start(form) }}
     {{form_widget(form.tableauPaiements,{'attr': { 'style': 'display:none' }}) }}
-{{ form_row(form) }}
-    <button class="btn btn-secondary" type="submit" id="tableauLigne_save" name="tableauLigne[save]">Modifier</button>
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Inserer une ligne</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Nom complet</h6>
+                <p class="card-text">{{ form_widget(form.nom) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Nombre de paiement</h6>
+                <p class="card-text">{{ form_widget(form.paiementXFois) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Inscription payée</h6>
+                <p class="card-text">{{ form_widget(form.payee) }}</p>
+                <button class="btn btn-secondary" type="submit" id="tableauLigne_save" name="tableauLigne[save]">Modifier</button>
+            </div>
+        </div>
+    </div>
 {{ form_end(form) }}
 {% endblock %}

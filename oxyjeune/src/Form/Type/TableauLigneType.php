@@ -16,13 +16,6 @@ class TableauLigneType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class)
-            ->add('moyenPaiement', ChoiceType::class, array(
-                'label' => 'Methode de paiement',
-                'choices'  => [
-                'Espece' => 'espece',
-                'Chèque' => 'cheque',
-                'Bon de la CAF' => 'bon caf',
-            ],))
             ->add('paiementXFois', ChoiceType::class, array(
                 'label' => 'Paiement en',
                 'choices'  => [

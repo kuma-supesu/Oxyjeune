@@ -2,9 +2,33 @@
 {% block body %}
     <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
     {{ form_start(form) }}
-    {{ form_row(form.event) }}
-    {{ form_row(form.description|raw) }}
-    {{ form_row(form.save) }}
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Modifier le planning</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Nom de l'évènement</h6>
+                <p class="card-text">{{ form_widget(form.event) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Description</h6>
+                <p class="card-text">{{ form_widget(form.description|raw) }}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Etat du planning</h6>
+                <p class="card-text">{{ form_widget(form.etat) }}</p>
+                <div class="d-flex justify-content-center mt-5">
+                        <div class="card-body text-center">
+                            <h6 class="card-subtitle mb-2 text-muted">Date</h6>
+                            <p class="card-text">{{ form_widget(form.journees.vars.prototype.date) }}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
+                            <p class="card-text">{{ form_widget(form.journees.vars.prototype.nombrePersonnes) }}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Duree plage</h6>
+                            <div class="d-flex justify-content-center">
+                                <p class="card-text">{{ form_widget(form.journees.vars.prototype.dureeHeure) }}:</p>
+                                <p class="card-text">{{ form_widget(form.journees.vars.prototype.dureeMinute) }}</p>
+                            </div>
+                        </div></div>
+
+                {{ form_row(form.save) }}
+            </div>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
     {% block javascripts %}
