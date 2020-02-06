@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-secondary m-3 text-center" href="{{ path("userInfo", {slug: slug }) }}" role="button">Retour</a>
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="d-flex justify-content-center mt-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body text-center">
+                <h5 class="card-title text-primary">Modifier les informations du compte</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Nom de l'utilisateur</h6>
+                <p class="card-text">{{ form_widget(form.nomComplet) }}</p>
+                <h6 class="card-subtitle text-muted">Email</h6>
+                <p class="card-text">{{ form_widget(form.email) }}</p>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <h6 class="card-subtitle text-muted">Role</h6>
+                    <p class="card-text">{{ form_widget(form.role) }}</p>
+                {% endif %}
+            </div>
+            <button class="btn btn-warning">Enrengistrer</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

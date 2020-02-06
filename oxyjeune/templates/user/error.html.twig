@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Token expiré</h1>
+    <p>
+        Votre demande de modification de mot de passe a expiré.
+        Veuillez renouveler votre demande de mot de passe <a class="btn-success btn" href="{{ path("userExist") }}" role="button">Changer mot de passe</a>
+    </p>
+{% endblock %}

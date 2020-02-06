@@ -103,7 +103,7 @@ class TableauController extends AbstractController
     }
 
     /**
-     * @Route("/tableauLigne/insertion/{ligne}", name="tableauPaiementInsertion")
+     * @Route("/tableauLigne/{tableau}/insertion/{ligne}", name="tableauPaiementInsertion")
      * @Security("is_granted('ROLE_ADMIN')")
      * @param Request $request
      * @return Response
@@ -111,10 +111,10 @@ class TableauController extends AbstractController
     public function tableauPaiementInsertionAction(Request $request)
     {
         $keyLigne = $request->get('ligne');
+        $keyTableau = $request->get('tableau');
         $data = new TableauPaiement();
         $repository = $this->getDoctrine()->getRepository(tableauLigne::class);
         $tableauLigne = $repository->findOneById($keyLigne);
-        $keyTableau = $tableauLigne->getId();
         $form = $this->createForm(TableauPaiementType::class, $data);
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);

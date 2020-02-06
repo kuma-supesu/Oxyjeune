@@ -1,26 +1,36 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
-    {{ form_start(form) }}
-    <div class="d-flex justify-content-center mt-5">
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    <a class=" m-3 btn btn-secondary text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
+        {{ form_start(form) }}
+      <div class="d-flex justify-content-center">
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
-                <h5 class="card-title">Inserer une date</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Date</h6>
-                <p class="card-text">{{ form_widget(form.date) }}</p>
+                <h5 class="card-title text-primary">Inserer une date</h5>
+                <h6 class="card-subtitle text-muted">Date</h6>
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            <p class="card-text">{{ form_widget(form.date) }}</p>
+                        </div>
+                    </div>
                 <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
-                <p class="card-text">{{ form_widget(form.nombrePersonnes) }}</p>
+                 <div class="d-flex justify-content-center mb-3">
+                     <div>
+                        <p class="card-text">{{ form_widget(form.nombrePersonnes) }}</p>
+                     </div>
+                 </div>
                 <h6 class="card-subtitle mb-2 text-muted">Duree plage</h6>
                 <div class="d-flex justify-content-center">
-                <p class="card-text">{{ form_widget(form.dureeHeure) }}:</p>
-                <p class="card-text">{{ form_widget(form.dureeMinute) }}</p>
+                    <p class="card-text">{{ form_widget(form.dureeHeure) }}</p>
+                    <p class="card-text ml-2">:</p>
+                    <p class="card-text">{{ form_widget(form.dureeMinute) }}</p>
+                </div>
+                <button type="button" name="__planning__" class="btn btn-primary">Ajouter une plage horaire</button>
+                <ul class="date row row-cols-md-1" data-prototype="{{ form_row(form.heures.vars.prototype)|e('html_attr') }}"></ul>
             </div>
-                <button type="button" name="__planning__" class="btn btn-primary btn-sm">Ajouter une plage horaire</button>
-                <ul class="date ml-5" data-prototype="{{ form_row(form.heures.vars.prototype)|e('html_attr') }}"></ul>
-                <button class="btn btn-secondary" type="submit" id="journee_save" name="journee[save]">Valider</button>
-            </div>
+            <button class="btn btn-success" type="submit" id="journee_save" name="journee[save]">Valider</button>
         </div>
-    </div>
+      </div>
     {{ form_end(form) }}
 {% endblock %}
 {% block javascripts %}
@@ -45,8 +55,8 @@
                 let index = $collectionHolder.data('index');
                 let newForm = prototype.replace(/__name__/g, index);
                 $collectionHolder.data('index', index + 1);
-                let $newFormLi = $('<ul id="date_' + index + '" class="date row"></ul>').append(newForm);
-                $newFormLi.append('<button type="button" class="remove-tag mt-3 btn btn-sm btn-danger">X</button>');
+                let $newFormLi = $('<ul id="date_' + index + '" class="date d-flex justify-content-center align-items-center"></ul>').append(newForm);
+                $newFormLi.append('<button style="height:45%;margin-bottom:15px;margin-left:-8px" type="button" class="remove-tag btn btn-sm btn-danger">X</button>');
                 $newLinkLi.before($newFormLi);
                 $('.remove-tag').click(function () {
                     $(this).parent().remove();

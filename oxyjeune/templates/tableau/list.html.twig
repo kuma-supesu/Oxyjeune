@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ url("tableauCreation") }}"><button class="btn-dark btn">Creer un nouveau Tableau</button></a>
+    {% endif %}
     {% for list in tableau|sort((a, b) => a.annee <=> b.annee)|reverse %}
         <a href="{{ path("tableauInfo", {tableau: list.id }) }}"><button class="btn-info btn">{{ list.annee|date("Y") }} - {{ list.classeur|upper }}</button></a>
     {% endfor %}

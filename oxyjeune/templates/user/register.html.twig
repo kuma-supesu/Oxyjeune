@@ -1,19 +1,19 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary btn text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
     {{ form_start(form) }}
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex justify-content-center">
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
-                <h5 class="card-title">Creer un utilisateur</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Nom Complet</h6>
+                <h5 class="card-title text-primary">Creer un utilisateur</h5>
+                <h6 class="card-subtitle text-muted">Nom Complet</h6>
                 <p class="card-text">{{ form_widget(form.nomComplet) }}</p>
-                <h6 class="card-subtitle mb-2 text-muted">Email</h6>
+                <h6 class="card-subtitle text-muted">Email</h6>
                 <p class="card-text">{{ form_widget(form.email) }}</p>
-                <h6 class="card-subtitle mb-2 text-muted">Type de compte</h6>
+                <h6 class="card-subtitle text-muted">Type de compte</h6>
                 <p class="card-text">{{ form_widget(form.role) }}</p>
-                <button class="btn btn-success">Enrengistrer</button>
             </div>
+            <button class="btn btn-success">Enrengistrer</button>
         </div>
     </div>
     {{ form_end(form) }}

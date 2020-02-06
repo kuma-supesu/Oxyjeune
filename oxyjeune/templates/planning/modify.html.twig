@@ -1,36 +1,59 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    <a class="m-3 btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
     {{ form_start(form) }}
-    <div class="d-flex justify-content-center mt-5">
         <div class="card">
             <div class="card-body text-center">
-                <h5 class="card-title">Modifier le planning</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Nom de l'évènement</h6>
-                <p class="card-text">{{ form_widget(form.event) }}</p>
-                <h6 class="card-subtitle mb-2 text-muted">Description</h6>
-                <p class="card-text">{{ form_widget(form.description|raw) }}</p>
-                <h6 class="card-subtitle mb-2 text-muted">Etat du planning</h6>
-                <p class="card-text">{{ form_widget(form.etat) }}</p>
-                <div class="d-flex justify-content-center mt-5">
-                        <div class="card-body text-center">
-                            <h6 class="card-subtitle mb-2 text-muted">Date</h6>
-                            <p class="card-text">{{ form_widget(form.journees.vars.prototype.date) }}</p>
-                            <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
-                            <p class="card-text">{{ form_widget(form.journees.vars.prototype.nombrePersonnes) }}</p>
-                            <h6 class="card-subtitle mb-2 text-muted">Duree plage</h6>
-                            <div class="d-flex justify-content-center">
-                                <p class="card-text">{{ form_widget(form.journees.vars.prototype.dureeHeure) }}:</p>
-                                <p class="card-text">{{ form_widget(form.journees.vars.prototype.dureeMinute) }}</p>
+                <h5 class="card-title text-primary">Modifier le planning</h5>
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">Nom de l'évènement</h6>
+                        <p class="card-text">{{ form_widget(form.event) }}</p>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-2 text-muted">Etat du planning</h6>
+                        <p class="card-text">{{ form_widget(form.etat) }}</p>
+                    </div>
+                </div>
+                <h6 class="card-subtitle mb-2 mt-5 text-muted">Description</h6>
+                <div class="d-flex justify-content-center">
+                    <p class="card-text w-75">{{ form_widget(form.description|raw) }}</p>
+                </div>
+                <div class="mt-5">
+                    <div class="row row-cols-1 row-cols-md-3">
+                        {% for journee in form.journees %}
+                            <div class="card-group">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <h6 class="card-subtitle text-muted">Date</h6>
+                                    <p class="card-text">{{ form_widget(journee.date) }}</p>
+                                    <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
+                                    <p class="card-text">{{ form_widget(journee.nombrePersonnes) }}</p>
+                                    <h6 class="card-subtitle align-items-center mb-2 text-muted">Duree plage horaire</h6>
+                                    <div class="d-flex justify-content-center">
+                                        <p class="card-text">{{ form_widget(journee.dureeHeure) }}</p>
+                                        <p class="card-text">H</p>
+                                        <p class="card-text">{{ form_widget(journee.dureeMinute) }}</p>
+                                        <p class="card-text">Min</p>
+                                    </div>
+                                    <h6 class="card-subtitle mb-2 text-muted">Plages horaires</h6>
+                                    <div class="row row-cols-md-2">
+                                    {% for heure in journee.heures %}
+                                        <div class="d-flex justify-content-center">
+                                        {{ form_widget(heure.plageHoraire) }}
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                </div>
                             </div>
-                        </div></div>
-
+                            {% endfor %}
+                        </div>
+                    </div>
                 {{ form_row(form.save) }}
             </div>
         </div>
-    </div>
     {{ form_end(form) }}
 {% endblock %}
-    {% block javascripts %}
-        {{ parent() }}
-    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

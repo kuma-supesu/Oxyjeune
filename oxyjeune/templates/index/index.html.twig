@@ -1,18 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ url("planningCreation") }}"><button class="btn-dark btn-lg btn">Creer un nouveau Planning</button></a>
-        <a href="{{ url("tableauCreation") }}"><button class="btn-dark btn-lg btn">Creer un nouveau Tableau</button></a>
-        <a href="{{ url("app_register") }}"><button class="btn-dark btn-lg btn">Creer un nouvel utilisateur</button></a>
-        <a href="{{ url("tableauListe") }}"><button class="btn-info btn-lg btn">Tableaux</button></a>
-    {% endif %}
-    <a href="{{ url("planningListe") }}"><button class="btn-info btn-lg btn">Planning des évènements</button></a>
-    {% for message in app.flashes('success') %}
-        <div class="flash-success">
-            <H2 class="text-muted">{{ message }} {{ app.user.nomComplet }}</H2>
-        </div>
-    {% endfor %}
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <div class="card">
             <div class="card-header">
                 <h3 class="text-primary text-center">Mes participations</h3>

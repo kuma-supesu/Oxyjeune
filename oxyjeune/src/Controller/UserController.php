@@ -8,6 +8,7 @@ use App\Form\Type\PasswordFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -15,8 +16,48 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegistrationController extends AbstractController
+class UserController extends AbstractController
 {
+
+    /**
+     * @Route("/users", name="userListe")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function userListeAction()
+    {
+        $repository = $this->getDoctrine()->getRepository(user::class);
+        $users = $repository->findAll();
+        return $this->render('user/list.html.twig', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/user/info/{slug}", name="userInfo")
+     * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
+     * @return Response
+     */
+    public function userInfoAction(Request $request)
+    {
+        $id = $request->get('slug');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneById($id);
+        return $this->render('user/info.html.twig', ['user' => $user]);
+    }
+
+    /**
+     * @Route("/user", name="user")
+     * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
+     * @return Response
+     */
+    public function userAction(Request $request)
+    {
+        $user = $this->getUser()->getId();
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneById($user);
+        return $this->render('user/info.html.twig', ['user' => $user]);
+    }
+
     /**
      * @Route("/utilisateur/creation", name="app_register")
      * @Security("is_granted('ROLE_ADMIN')")
@@ -115,7 +156,26 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/reinitialisation/{email}/{token}", name="resestPassword")
+     * @Route("/token/{slug}", name="addToken")
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function addTokenAction(Request $request)
+    {
+        $email = $request->get('slug');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneByEmail($email);
+        $token = bin2hex(random_bytes(10));
+        $user->setToken($token);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('resetPassword', ['email' => $email, 'token' => $token]);
+    }
+
+    /**
+     * @Route("/reinitialisation/{email}/{token}", name="resetPassword")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
@@ -141,7 +201,7 @@ class RegistrationController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('index');
             }
 
             return $this->render('user/reset_password.html.twig', [
@@ -149,8 +209,49 @@ class RegistrationController extends AbstractController
             ]);
 
         }else{
-            return "erreur";
+            return $this->render('user/error.html.twig');
         }
+    }
+
+    /**
+     * @Route("/user/modification/{slug}", name="userModification")
+     * @Security("is_granted('ROLE_USER')")
+     * @param Request $request
+     * @return Response
+     */
+    public function userModificationAction(Request $request)
+    {
+        $id = $request->get('slug');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneById($id);
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('userInfo', ['slug' => $id] );
+            }
+        }
+        return $this->render('user/modify.html.twig', ['form' => $form->createView(), 'slug' => $id]);
+    }
+
+    /**
+     * @Route("/user/suppression/{slug}", name="userSuppression")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function userSuppressionAction(Request $request)
+    {
+        $id = $request->get('slug');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneById($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('userListe');
     }
 
 }

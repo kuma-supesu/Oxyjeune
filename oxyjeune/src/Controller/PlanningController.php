@@ -54,16 +54,11 @@ class PlanningController extends AbstractController
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                if (isset($data->getJournees()[0])) {
-                    $date = $data->getJournees()[0]->getDate();
-                    $data->setDebut($date);
-                    $this->flushToDB($data);
-                } else {
-                    $this->flushToDB($data);
+                $this->flushToDB($data);
+                $id = $data->getId();
+                return $this->redirectToRoute('planningInfo',['slug' => $id]);
                 }
-                return $this->redirectToRoute('planningListe');
             }
-        }
         return $this->render('planning/create.html.twig', ['form' => $form->createView()]);
     }
 
@@ -121,7 +116,7 @@ class PlanningController extends AbstractController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function suppressionPlanningAction(Request $request)
+    public function planningSuppressionAction(Request $request)
     {
         $id = $request->get('slug');
         $repository = $this->getDoctrine()->getRepository(Planning::class);

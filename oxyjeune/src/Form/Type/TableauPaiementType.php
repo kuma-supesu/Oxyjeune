@@ -19,6 +19,7 @@ class TableauPaiementType extends AbstractType
                 'label' => 'Date du versement',
                 'years' => range(date('Y')-10, date('Y')+10),
                 'format' => 'dd-MM-yyyy',
+                'data' => new \DateTime('now'),
             ))
             ->add('moyenPaiement', ChoiceType::class, array(
                 'label' => 'Methode de paiement',

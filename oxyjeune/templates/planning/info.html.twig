@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <div class="row text-center">
             <div class="col-3">
                 <a class="btn btn-secondary btn text-center" href="{{ path("planningListe") }}" role="button">Retour à la liste</a>
@@ -18,7 +18,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <div class="card">
             <div class="card-header">
                 <h2 class="text-muted"> Planning | {{ planning.event|upper }} </h2>
@@ -41,26 +41,19 @@
                             {% set loops = loop.index0 %}
                             <div id="loop">
                     {% if heure.users is not empty %}
+                        {% set userInscrit = false %}
                         {% for user in heure.users %}
-                            {% if user.nomComplet is same as(app.user.nomComplet) %}
-                                {% if heure.users|length == list.nombrePersonnes %}
-                                    <button class="btn-success btn" disabled>Complet !</button>
-                                    {% for user in heure.users %}
-                                        {% if app.user.nomComplet is same as (user.nomComplet) %}
-                                            <a class="btn-warning btn" href="{{ path("planningDesinscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">Se désinscrire</a>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    {% for user in heure.users %}
-                                        {% if app.user.nomComplet is same as (user.nomComplet) %}
-                                            <a class="btn-warning btn" href="{{ path("planningDesinscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">Se désinscrire</a>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            {% else %}
-                                <a class="btn-info btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">S'inscrire</a>
+                            {% if app.user.nomComplet is same as (user.nomComplet) %}
+                                <a class="btn-warning btn" href="{{ path("planningDesinscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">Se désinscrire</a>
+                                {% set userInscrit = true %}
                             {% endif %}
                         {% endfor %}
+                        {% if heure.users|length == list.nombrePersonnes %}
+                            <button class="btn-success btn" disabled>Complet !</button>
+                        {% endif %}
+                        {% if userInscrit == false %}
+                            <a class="btn-info btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">S'inscrire</a>
+                        {% endif %}
                     {% else %}
                         <a class="btn-info btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">S'inscrire</a>
                     {% endif %}
