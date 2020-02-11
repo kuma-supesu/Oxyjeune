@@ -1,11 +1,21 @@
 <html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Oxy'jeunes</title>
+    <link rel="icon" href="https://jstadelmann.fr/wp-content/uploads/2019/11/icon.png" sizes="32x32">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
 <body>
+<header>
+    <img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes" id="logo">
+</header>
 <div class="body">
     <div class="container">
         <div class="content">
-            <h1>Bienvenue {{ username.nomComplet }}!</h1>
+            <h1>Bienvenue {{ username.nomComplet }} sur Oxyjeune.fr !</h1>
             <p>Votre identifiant : {{ username.email }}</p>
             <p>Votre mot de passe : {{ password }}</p>
+            <a class="btn-primary btn" href="{{ absolute_url(path("index")) }}" role="button">Connexion</a>
         </div>
     </div>
 </div>

@@ -1,9 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ url("planningCreation") }}"><button class="btn-dark btn">Creer un nouveau Planning</button></a>
-    {% endif %}
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
     <div class="container-xl">
         <div class="row row-cols-1 row-cols-md-3">
             {% for list in planning|sort((a, b) => a.debut <=> b.debut)|reverse %}
@@ -24,11 +21,11 @@
                         <p class="card-text">{{list.description|raw}}</p>
                         {% if is_granted('ROLE_ADMIN') or list.etat is same as(true) %}
                             <div class="mt-auto">
-                                <a href="{{ path("planningInfo", {slug: list.id }) }}"><button class="btn-info btn mt-auto align-items-center">Inscription</button></a>
+                                <a href="{{ path("planningInfo", {slug: list.id }) }}"><button class="btn-blue btn mt-auto align-items-center"><i class="fas fa-pen"></i> Inscription</button></a>
                             </div>
                         {% else %}
                             <div class="mt-auto">
-                                <button class="btn-success btn mt-auto align-items-center" disabled>Bientôt disponible</button>
+                                <button class="btn-success btn mt-auto align-items-center" disabled><i class="fas fa-hourglass-half"></i> Bientôt disponible</button>
                             </div>
                         {% endif %}
                     </div>

@@ -1,12 +1,30 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button">Retour à l'accueil</a>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ url("tableauCreation") }}"><button class="btn-dark btn">Creer un nouveau Tableau</button></a>
-    {% endif %}
-    {% for list in tableau|sort((a, b) => a.annee <=> b.annee)|reverse %}
-        <a href="{{ path("tableauInfo", {tableau: list.id }) }}"><button class="btn-info btn">{{ list.annee|date("Y") }} - {{ list.classeur|upper }}</button></a>
-    {% endfor %}
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+       <div class="container-xl">
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for list in tableau|sort((a, b) => a.annee <=> b.annee)|reverse %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-group">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title text-primary text-center">{{ list.annee|date("Y") }} - {{ list.classeur|upper }}</h5>
+                            <p class="card-text">{{ list.tableauLignes|length }} Membres</p>
+                            {% set total = 0 %}
+                            {% for ligne in list.tableauLignes %}
+                                {% for versement in ligne.tableauPaiements %}
+                                    {% set total = total + versement.sommeVersement %}
+                                {% endfor %}
+                            {% endfor %}
+                            <div class="mb-3 font-weight-bold">Total : {{ total }}€ </div>
+                                <div class="mt-auto">
+                                    <a href="{{ path("tableauInfo", {tableau: list.id }) }}"><button class="btn-blue btn">Voir</button></a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
     {% block javascripts %}
         {{ parent() }}
     {% endblock %}

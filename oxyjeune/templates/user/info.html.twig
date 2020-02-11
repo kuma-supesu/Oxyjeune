@@ -1,32 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
     <div class="container-fluid mt-5">
-        <div class="row text-center">
-            {% if is_granted('ROLE_ADMIN') %}
-            <div class="col-3">
-                <a class="btn btn-secondary btn text-center" href="{{ path("userListe") }}" role="button">Retour à la liste</a>
-            </div>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') and user.email is not same as(app.user.email)%}
-                <div class="col-3">
-                    <a class="btn-success btn" href="{{ path("userExist") }}" role="button">Changer mot de passe</a>
-                </div>
-            {% else %}
-                <div class="col-3">
-                    <a class="btn-success btn" href="{{ path("addToken", {slug: user.email}) }}" role="button">Changer mot de passe</a>
-                </div>
-            {% endif %}
-            <div class="col-3">
-                    <a class="btn-warning btn" href="{{ path("userModification", {slug: user.id}) }}" role="button">Modifier</a>
-            </div>
-            {% if is_granted('ROLE_ADMIN') %}
-                <div class="col-3">
-                    <a class="btn-danger btn" href="{{ path("userSuppression", {slug: user.id}) }}" role="button">Supprimer</a>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-    <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-12">
                 <table class="table table-striped table-dark" id="table" >
@@ -35,6 +9,7 @@
                         <th class="w-30" scope="col" data-sortable="true">Nom</th>
                         <th class="w-30" scope="col" data-sortable="true">E-mail</th>
                         <th class="w-20" scope="col" data-sortable="true">Type de compte</th>
+                        <th class="w-20" scope="col" ></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,6 +17,17 @@
                             <td> {{ user.nomComplet }} </td>
                             <td> {{ user.email }} </td>
                             <td> {{ user.role|replace({'ROLE_USER': 'Bénévole', 'ROLE_ADMIN': 'Administrateur'}) }} </td>
+                            <td>
+                                <div class="btn-group dropright">
+                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-cogs"></i> Actions
+                                    </button>
+                                    <div class="dropdown-menu dropright">
+                                        <a class="dropdown-item p-3" href="{{ path("userToken") }}"><i class="fas fa-key"></i> Changer mot de passe</a>
+                                        <a class="dropdown-item p-3" href="{{ path("userModification") }}"><i class="fas fa-edit"></i> Modifier mon compte</a>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

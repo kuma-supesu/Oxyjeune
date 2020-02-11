@@ -2,9 +2,10 @@
 {% block body %}
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn btn-secondary m-3 text-center" href="{{ path("userInfo", {slug: slug }) }}" role="button">Retour</a>
+        <a class="btn btn-secondary m-3 text-center" href="{{ path("userInfo", {slug: slug }) }}" role="button"><i class="fas fa-arrow-left"></i> Retour</a>
     {% endif %}
     {{ form_start(form) }}
+
     <div class="d-flex justify-content-center mt-3">
         <div class="card" style="width: 18rem;">
             <div class="card-body text-center">
@@ -16,13 +17,14 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <h6 class="card-subtitle text-muted">Role</h6>
                     <p class="card-text">{{ form_widget(form.role) }}</p>
+                    {% else %}
+                        {{ form_widget(form.role,{'attr': { 'style': 'display:none' }}) }}
                 {% endif %}
             </div>
             <button class="btn btn-warning">Enrengistrer</button>
             </div>
         </div>
-    </div>
-    {{ form_end(form, {'render_rest': false}) }}
+    {{ form_end(form) }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

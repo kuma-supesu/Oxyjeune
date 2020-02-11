@@ -1,19 +1,21 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') or planning.etat is same as(true) %}
     <div class="container-fluid mt-5">
         <div class="row text-center">
             <div class="col-3">
-                <a class="btn btn-secondary btn text-center" href="{{ path("planningListe") }}" role="button">Retour à la liste</a>
+                <a class="btn btn-secondary btn text-center" href="{{ path("planningListe") }}" role="button"><i class="fas fa-arrow-left"></i> Retour à la liste</a>
             </div>
             {% if is_granted('ROLE_ADMIN') %}
-                <div class="col-3">
-                    <a class="btn-success btn" href="{{ path("planningInsertion", {slug: planning.id}) }}" role="button">Insérer une date</a>
-                </div>
-                <div class="col-3">
-                    <a class="btn-warning btn" href="{{ path("planningModification", {slug: planning.id}) }}" role="button">Modifier</a>
-                </div>
-                <div class="col-3">
-                    <a class="btn-danger btn" href="{{ path("planningSuppression", {slug: planning.id}) }}" role="button">Supprimer</a>
+                <div class="btn-group">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> Actions
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item p-3" href="{{ path("planningInsertion", {slug: planning.id}) }}"><i class="fas fa-plus"></i> Insérer une date</a>
+                        <a class="dropdown-item p-3" href="{{ path("planningModification", {slug: planning.id}) }}"><i class="fas fa-edit"></i> Modifier le planning</a>
+                        <a class="dropdown-item p-3" href="{{ path("planningSuppression", {slug: planning.id}) }}"><i class="fas fa-minus"></i> Supprimer le planning</a>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -31,12 +33,12 @@
                     <div class="card-body d-flex flex-column align-items-center">
                         <h5 class="card-title text-muted">{{ list.date|format_date(locale="fr") }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ heure.plageHoraire|format_time("short", locale="fr") }} - {{ heure.plageHoraire|date_modify("+" ~ list.dureeHeure ~ " Hours " ~ list.dureeMinute ~ " min")|format_time("short", locale="fr") }}</h6>
-                        <p class="card-text">
+                        <div class="card-text mt-3 text-center">
                             <h6 class="text-muted">Participants : </h6>
                             {% for user in heure.users %}
                                 <p>{{ user.nomComplet }}</p>
                             {% endfor %}
-                        </p>
+                        </div>
                         <div class="mt-auto">
                             {% set loops = loop.index0 %}
                             <div id="loop">
@@ -44,18 +46,18 @@
                         {% set userInscrit = false %}
                         {% for user in heure.users %}
                             {% if app.user.nomComplet is same as (user.nomComplet) %}
-                                <a class="btn-warning btn" href="{{ path("planningDesinscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">Se désinscrire</a>
+                                <a class="btn-yellow btn" href="{{ path("planningDesinscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button"><i class="fas fa-minus"></i> Se désinscrire</a>
                                 {% set userInscrit = true %}
                             {% endif %}
                         {% endfor %}
                         {% if heure.users|length == list.nombrePersonnes %}
-                            <button class="btn-success btn" disabled>Complet !</button>
+                            <button class="btn-grey btn" disabled><i class="far fa-calendar-check"></i> Complet</button>
                         {% endif %}
                         {% if userInscrit == false %}
-                            <a class="btn-info btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">S'inscrire</a>
+                            <a class="btn-blue btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button"><i class="fas fa-plus"></i> S'inscrire</a>
                         {% endif %}
                     {% else %}
-                        <a class="btn-info btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button">S'inscrire</a>
+                        <a class="btn-blue btn" href="{{ path("planningInscription", {slug: planning.id, journee: journee, heure: loops }) }}" role="button"><i class="fas fa-plus"></i> S'inscrire</a>
                     {% endif %}
                         </div>
                         </div>
@@ -67,6 +69,13 @@
             <div class="card-footer"></div>
         </div>
     </div>
+        {% else %}
+            <h1>Erreur de permission</h1>
+            <p>On a dit qu'il n'est pas pret ! <i class="far fa-laugh-wink"></i></p>
+            <p>
+                <a href="{{ path('index') }}"><i class="fas fa-home"></i> retourner à l'accueil</a>.
+            </p>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

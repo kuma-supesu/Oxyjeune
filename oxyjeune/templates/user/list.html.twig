@@ -1,9 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button">Retour à l'accueil
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ url("app_register") }}"><button class="btn-dark btn">Creer un nouvel utilisateur</button></a>
-        {% endif %}
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("index") }}" role="button"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -23,7 +20,24 @@
                         <th scope="row">{{loop.index}}</th>
                         <td> {{ list.nomComplet }} </td>
                         <td> {{ list.role|replace({'ROLE_USER': 'Bénévole', 'ROLE_ADMIN': 'Administrateur'}) }} </td>
-                        <td><a class="btn-info btn" href="{{ path("userInfo", {slug: list.id }) }}" role="button">Voir les détails</a></td>
+                        <td>
+                            <div class="btn-group dropright" style="overflow: visible">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cogs"></i> Actions
+                                </button>
+                                <div class="dropdown-menu dropright">
+                                    {% if is_granted('ROLE_ADMIN') and list.email is not same as(app.user.email)%}
+                                        <a class="dropdown-item p-3" href="{{ path("userExist") }}"><i class="fas fa-key"></i> Changer de mot de passe</a>
+                                    {% else %}
+                                        <a class="dropdown-item p-3" href="{{ path("adminToken",{slug: list.email}) }}"><i class="fas fa-key"></i> Changer mot de passe</a>
+                                    {% endif %}
+                                    <a class="dropdown-item p-3" href="{{ path("userModificationAdmin",{slug: list.id}) }}"><i class="fas fa-edit"></i> Modifier le compte</a>
+                                    {% if is_granted('ROLE_ADMIN') and list.email is not same as(app.user.email) %}
+                                        <a class="dropdown-item p-3" href="{{ path("userSuppression",{slug: list.id}) }}"><i class="fas fa-minus"></i> Supprimer le compte</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

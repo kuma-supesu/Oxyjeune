@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Journee as Journee;
 use Doctrine\ORM\Mapping as ORM;
@@ -87,12 +88,12 @@ class Planning
         return $this;
     }
 
-    public function getDebut(): ?\DateTimeInterface
+    public function getDebut(): ?DateTimeInterface
     {
         return $this->debut;
     }
 
-    public function setDebut(\DateTimeInterface $debut): self
+    public function setDebut(DateTimeInterface $debut): self
     {
         $this->debut = $debut;
 

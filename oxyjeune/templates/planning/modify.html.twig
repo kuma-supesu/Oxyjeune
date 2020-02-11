@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
-    <a class="m-3 btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button">Retour au planning</a>
+    <a class="m-3 btn btn-secondary btn text-center" href="{{ path("planningInfo", {slug: slug }) }}" role="button"><i class="fas fa-arrow-left"></i> Retour au planning</a>
     {{ form_start(form) }}
         <div class="card">
             <div class="card-body text-center">

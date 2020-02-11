@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
-    <a class="btn btn-secondary m-3 text-center" href="{{ path("tableauInfo", {tableau: tableau }) }}" role="button">Retour au tableau</a>
+    <a class="btn btn-secondary m-3 text-center" href="{{ path("tableauInfo", {tableau: tableau }) }}" role="button"><i class="fas fa-arrow-left"></i> Retour au tableau</a>
     {{ form_start(form) }}
     <div class="d-flex justify-content-center">
         <div class="card" style="width: 18rem;">

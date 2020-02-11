@@ -39,7 +39,17 @@ class TableauController extends AbstractController
         $keyTableau = $request->get('tableau');
         $repository = $this->getDoctrine()->getRepository(tableau::class);
         $tableau = $repository->findOneById($keyTableau);
-        return $this->render('tableau/info.html.twig', ['tableau' => $tableau]);
+        $lignes =  $tableau->getTableauLignes();
+        $total = 0;
+        if ($lignes != null)
+            foreach ($lignes as $ligne) {
+                $paiements = $ligne->getTableauPaiements();
+                foreach ($paiements as $paiement) {
+                    $sommes[] = $paiement->getSommeVersement();
+                    $total = array_sum($sommes);
+                }
+            }
+        return $this->render('tableau/info.html.twig', ['tableau' => $tableau, 'total' => $total]);
     }
 
     /**
@@ -54,7 +64,13 @@ class TableauController extends AbstractController
         $keyLigne = $request->get('ligne');
         $repository = $this->getDoctrine()->getRepository(tableauLigne::class);
         $tableauLigne = $repository->findOneById($keyLigne);
-        return $this->render('tableauLigne/info.html.twig', ['data' => $tableauLigne, 'tableau' => $keyTableau]);
+        $versement =  $tableauLigne->getTableauPaiements();
+        $total = 0;
+        foreach ($versement as $somme) {
+            $sommes[] = $somme->getSommeVersement();
+            $total = array_sum($sommes);
+        }
+        return $this->render('tableauLigne/info.html.twig', ['data' => $tableauLigne, 'tableau' => $keyTableau, 'sommeTotal' => $total]);
     }
 
     /**

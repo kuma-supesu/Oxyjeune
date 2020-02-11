@@ -5,41 +5,81 @@
     <title>Oxy'jeunes</title>
     <link rel="stylesheet" href="https://jstadelmann.fr/wp-content/themes/Divi/style.css?ver=3.24" type="text/css" media="all">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C700%2C700italic%2C900%2C900italic&amp;ver=5.3#038;subset=cyrillic,greek,vietnamese,latin,greek-ext,latin-ext,cyrillic-ext" type="text/css" media="all">
-    <link rel="icon" href="https://jstadelmann.fr/wp-content/uploads/2019/11/icon.png" sizes="32x32">
-    <link href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="icon"  href="{{ asset('src/icon.png') }}" sizes="32x32">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
     <link rel="stylesheet" id="et-core-unified-cached-inline-styles" href="https://jstadelmann.fr/wp-content/cache/et/196/et-core-unified-15802565235766.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://cdn.tiny.cloud/1/1d4emzif0qn5hpnu4ufb2xa1zxf8mmacdd7y8hffhqsop6lx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>tinymce.init({selector: '#planning_description', height: 300});</script>
-</head>
-<body class="et_non_fixed_nav et_header_style_left">
-<header id="main-header" data-height-onload="80" data-height-loaded="true" data-fixed-height-onload="80">
-    <a href="https://jstadelmann.fr/"><img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes" id="logo" data-height-percentage="54" data-actual-width="856" data-actual-height="253"></a>
-</header>
-<div class="et_pb_row et_pb_row_0 et_pb_row_6col et_pb_image et_pb_image_0">
-    <a href="https://jstadelmann.fr/" class="et_pb_image_wrap"><img src="https://jstadelmann.fr/wp-content/uploads/2019/11/Logo.png" alt="Oxy'jeunes"></a>
-    {% if app.user == true %}
-        <a href="{{ url("index") }}"><button class="btn-info btn"><i class="fas fa-home"></i></button></a>
-        <a href="{{ url("user") }}"><button class="btn-info btn"><i class="fas fa-user"></i></button></a>
-        <a href="{{ url("planningListe") }}"><button class="btn-info btn"><i class="fas fa-calendar"></i> Planning des évènements</button></a>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ url("tableauListe") }}"><button class="btn-info btn"><i class="fas fa-table"></i> Tableaux</button></a>
-            <a href="{{ url("userListe") }}"><button class="btn-info btn"><i class="fas fa-users"></i> Utilisateurs</button></a>
-        {% endif %}
-        <a href="{{ path('app_logout') }}"><button class="btn-danger btn"><i class="fas fa-times-circle"></i> se déconnecter</button></a>
-    {% endif %}
-</div>
-<div id="et-main-area">{% block body %}{% endblock %}</div>
-</body>
-{% block javascripts %}
-    <script src="https://kit.fontawesome.com/faad4816bd.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{{ asset('src/jquery-3.4.1.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('src/style.css') }}">
+</head>
+<body class="et_non_fixed_nav et_header_style_left">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3C63AD">
+    <a class="navbar-brand" href="https://jstadelmann.fr">
+        <img src="{{ asset('src/logo.png') }}" width="250" class="d-inline-block align-top" alt="Oxy'jeune">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars" aria-controls="navbars" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse show" id="navbars">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url("index") }}"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" type="button" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Plannings</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item p-3" href="{{ url("planningListe") }}"><i class="fas fa-calendar"></i> Liste des plannings</a>
+                    <a class="dropdown-item p-3" href="{{ url("planningCreation") }}"><i class="fas fa-plus"></i> Créer un nouveau Planning</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" type="button" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tableaux</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item p-3" href="{{ url("tableauListe") }}"><i class="fas fa-table"></i> Liste des tableaux</a>
+                    <a class="dropdown-item p-3" href="{{ url("tableauCreation") }}"><i class="fas fa-plus"></i> Créer un nouveau Tableau</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" type="button" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilisateurs</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item p-3" href="{{ url("userListe") }}"><i class="fas fa-users"></i> Liste des utilisateurs</a>
+                    <a class="dropdown-item p-3" href="{{ url("userCreate") }}"><i class="fas fa-plus"></i> Creer un nouvel utilisateur</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}"><span style="color: red;"><i class="fas fa-times-circle"></i></span> se déconnecter</a>
+            </li>
+        </ul>
+        {% elseif is_granted('ROLE_USER') %}
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url("index") }}"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url("user") }}"><i class="fas fa-user"></i> Mon compte</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url("planningListe") }}"><i class="fas fa-calendar"></i> Plannings des évènements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}"><span style="color: red;"><i class="fas fa-times-circle"></i></span> se déconnecter</a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</nav>
+
+<div id="et-main-area">{% block body %}{% endblock %}</div>
+{% block javascripts %}
+    <script src="https://kit.fontawesome.com/faad4816bd.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/1d4emzif0qn5hpnu4ufb2xa1zxf8mmacdd7y8hffhqsop6lx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>tinymce.init({selector: '#planning_description', height: 300});</script>
 {% endblock %}
+</body>
 </html>
-
-
-
-
-

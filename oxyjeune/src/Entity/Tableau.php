@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\TableauLigne as TableauLigne;
@@ -46,12 +47,12 @@ class Tableau
         return $this->id;
     }
 
-    public function getAnnee(): ?\DateTimeInterface
+    public function getAnnee(): ?DateTimeInterface
     {
         return $this->annee;
     }
 
-    public function setAnnee(\DateTimeInterface $annee): self
+    public function setAnnee(DateTimeInterface $annee): self
     {
         $this->annee = $annee;
 

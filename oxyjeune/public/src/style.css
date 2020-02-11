@@ -1,0 +1,57 @@
+.dropdown-menu > a {
+    background-color: white;
+    color: #3C63AD;
+}
+.dropdown-menu > a:hover {
+    background-color: #3C63AD;
+    color: whitesmoke;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+.btn-link-white {
+    color: white;
+}
+.btn-link-white:hover {
+    color: rgb(200, 200, 200);
+}
+.btn-link-red {
+    color: #dc3545;
+}
+.btn-link-red:hover {
+    color: rgba(220, 53, 69, 0.75);
+}
+.btn-blue {
+    color: white;
+    background-color: #3C63AD;
+    border-color: #3C63AD;
+}
+.btn-blue:hover {
+    color: white;
+    background-color: rgba(60, 99, 173, 0.75);
+    border-color: rgba(60, 99, 173, 0.75);
+}
+.btn-yellow {
+    color: black;
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+}
+.btn-yellow:hover {
+    color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(255, 204, 0, 0.75);
+    border-color: rgba(255, 204, 0, 0.75);
+}
+.btn-grey {
+    color: white;
+    background-color: rgb(50, 50, 50);
+    border-color: rgb(50, 50, 50);
+}
+.btn-grey:hover {
+    color: white;
+}
+.text-blue {
+    color: #3C63AD;
+}
+.nav-link {
+    font-size: 20px;
+}

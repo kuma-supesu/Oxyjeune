@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class UserController extends AbstractController
      * @Route("/users", name="userListe")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function userListeAction()
+    public function userListeAdminAction()
     {
         $repository = $this->getDoctrine()->getRepository(user::class);
         $users = $repository->findAll();
@@ -32,11 +33,11 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/info/{slug}", name="userInfo")
-     * @Security("is_granted('ROLE_USER')")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @param Request $request
      * @return Response
      */
-    public function userInfoAction(Request $request)
+    public function userInfoAdminAction(Request $request)
     {
         $id = $request->get('slug');
         $repository = $this->getDoctrine()->getRepository(User::class);
@@ -47,19 +48,22 @@ class UserController extends AbstractController
     /**
      * @Route("/user", name="user")
      * @Security("is_granted('ROLE_USER')")
-     * @param Request $request
      * @return Response
      */
-    public function userAction(Request $request)
+    public function userAction()
     {
-        $user = $this->getUser()->getId();
+        $session = new Session();
+        $id = $this->getUser()->getId();
+        $email = $this->getUser()->getEmail();
+        $session->set('id', $id);
+        $session->set('email', $email);
         $repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->findOneById($user);
-        return $this->render('user/info.html.twig', ['user' => $user]);
+        $user = $repository->findOneById($id);
+        return $this->render('user/info.html.twig', ['user' => $user ]);
     }
 
     /**
-     * @Route("/utilisateur/creation", name="app_register")
+     * @Route("/user/creation", name="userCreate")
      * @Security("is_granted('ROLE_ADMIN')")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -68,7 +72,7 @@ class UserController extends AbstractController
      * @throws TransportExceptionInterface
      * @throws \Exception
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer): Response
+    public function UserCreateAdminAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -100,10 +104,10 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('index');
+            return $this->redirectToRoute('userListe');
         }
 
-        return $this->render('user/register.html.twig', [
+        return $this->render('user/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -156,12 +160,33 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/token/{slug}", name="addToken")
+     * @Route("/token", name="userToken")
+     * @Security("is_granted('ROLE_USER')")
+     * @return Response
+     * @throws \Exception
+     */
+    public function userTokenAction()
+    {
+        $session = new Session();
+        $email = $session->get('email');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneByEmail($email);
+        $token = bin2hex(random_bytes(10));
+        $user->setToken($token);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('resetPassword', ['email' => $email, 'token' => $token]);
+    }
+
+    /**
+     * @Route("/admin/token/{slug}", name="adminToken")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @param Request $request
      * @return Response
      * @throws \Exception
      */
-    public function addTokenAction(Request $request)
+    public function adminTokenAction(Request $request)
     {
         $email = $request->get('slug');
         $repository = $this->getDoctrine()->getRepository(User::class);
@@ -214,12 +239,37 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/modification/{slug}", name="userModification")
+     * @Route("/user/modification", name="userModification")
      * @Security("is_granted('ROLE_USER')")
      * @param Request $request
      * @return Response
      */
     public function userModificationAction(Request $request)
+    {
+        $session = new Session();
+        $id = $session->get('id');
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneById($id);
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                return $this->redirectToRoute('user' );
+            }
+        }
+        return $this->render('user/modify.html.twig', ['form' => $form->createView(), 'slug' => $id]);
+    }
+
+    /**
+     * @Route("/user/modification/{slug}", name="userModificationAdmin")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param Request $request
+     * @return Response
+     */
+    public function userModificationAdminAction(Request $request)
     {
         $id = $request->get('slug');
         $repository = $this->getDoctrine()->getRepository(User::class);
@@ -243,7 +293,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function userSuppressionAction(Request $request)
+    public function userSuppressionAdminAction(Request $request)
     {
         $id = $request->get('slug');
         $repository = $this->getDoctrine()->getRepository(User::class);

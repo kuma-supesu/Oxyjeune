@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\TableauPaiement;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -19,7 +20,7 @@ class TableauPaiementType extends AbstractType
                 'label' => 'Date du versement',
                 'years' => range(date('Y')-10, date('Y')+10),
                 'format' => 'dd-MM-yyyy',
-                'data' => new \DateTime('now'),
+                'data' => new DateTime('now'),
             ))
             ->add('moyenPaiement', ChoiceType::class, array(
                 'label' => 'Methode de paiement',

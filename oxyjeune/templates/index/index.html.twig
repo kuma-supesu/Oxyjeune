@@ -13,7 +13,7 @@
                                 <h5 class="card-subtitle mb-2 text-muted">{{ heure.journee.date|format_date("long", locale="fr") }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ heure.plageHoraire|format_time("short", locale="fr") }} - {{ heure.plageHoraire|date_modify("+" ~ heure.journee.dureeHeure ~ " Hours " ~ heure.journee.dureeMinute ~ " min")|format_time("short", locale="fr") }}</h6>
                                 <div class="mt-auto ">
-                                    <a href="{{ path("planningInfo", {slug: heure.journee.planning.id }) }}"><button class="btn-info btn-lg btn mt-auto align-items-center">Voir</button></a>
+                                    <a href="{{ path("planningInfo", {slug: heure.journee.planning.id }) }}"><button class="btn-blue btn-lg btn mt-auto align-items-center">Voir</button></a>
                                 </div>
                             </div>
                         </div>
