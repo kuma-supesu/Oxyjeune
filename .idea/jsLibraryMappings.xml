@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{bootstrap, bootstrap-table, et-core-unified-15802565235766, faad4816bd, jquery-3.4.1.slim, popper, tinymce}" />
+    <file url="PROJECT" libraries="{bootstrap, bootstrap-table, bootstrap4-toggle, et-core-unified-15802565235766, faad4816bd, jquery-3.4.1.slim, popper, tinymce}" />
   </component>
 </project>

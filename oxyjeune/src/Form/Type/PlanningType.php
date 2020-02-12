@@ -17,7 +17,9 @@ class PlanningType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('event', TextType::class, array('label' => 'Nom de l\'évènement'))
+            ->add('event', TextType::class, array(
+                'label' => 'Nom de l\'évènement'
+            ))
             ->add('description', TextareaType::class, array(
                 'required' => false,
             ))

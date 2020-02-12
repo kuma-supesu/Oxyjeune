@@ -20,14 +20,16 @@
                 <div class="d-flex justify-content-center">
                     <p class="card-text w-75">{{ form_widget(form.description|raw) }}</p>
                 </div>
-                <div class="mt-5">
+                <div class="mt-5">{% for date in planning.journees|sort((a, b) => a.date <=> b.date) %}
+                        <a class="btn btn-danger" href="{{ path("dateSuppression", {slug: date.id}) }}"><i class="fas fa-minus"></i> Supprimer le {{ date.date|format_date("short", locale="fr")  }}</a>
+                    {% endfor %}
                     <div class="row row-cols-1 row-cols-md-3">
-                        {% for journee in form.journees %}
-                            <div class="card-group">
+                        {% for journee in form.journees|sort((a, b) => a.date <=> b.date) %}
+                            <div class="card-group bg-light">
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <h6 class="card-subtitle text-muted">Date</h6>
                                     <p class="card-text">{{ form_widget(journee.date) }}</p>
-                                    <h6 class="card-subtitle mb-2 text-muted">Nombre de personne</h6>
+                                    <h6 class="mt-3 card-subtitle mb-2 text-muted">Nombre de personne</h6>
                                     <p class="card-text">{{ form_widget(journee.nombrePersonnes) }}</p>
                                     <h6 class="card-subtitle align-items-center mb-2 text-muted">Duree plage horaire</h6>
                                     <div class="d-flex justify-content-center">

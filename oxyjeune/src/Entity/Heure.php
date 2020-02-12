@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Journee as Journee;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HeureRepository")
@@ -24,6 +25,7 @@ class Heure
 
     /**
      * @ORM\Column(type="time")
+     * @Assert\NotNull
      */
     private $plageHoraire;
 

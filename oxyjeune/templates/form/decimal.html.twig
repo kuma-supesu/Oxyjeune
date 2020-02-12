@@ -1,0 +1,4 @@
+{%- block decimal_widget -%}
+    {%- set type = type|default('number') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock decimal_widget -%}

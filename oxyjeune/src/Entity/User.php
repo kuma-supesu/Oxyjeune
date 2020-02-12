@@ -24,7 +24,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email()
+     * @Assert\Email(
+     *     message = "L'e-mail '{{ value }}' n'est pas un e-mail valide."
+     * )
      */
     private $email;
 
@@ -35,6 +37,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 25,
+     *      minMessage = "Votre mot de passe doit faire au minimum {{ limit }} characteres",
+     *      maxMessage = "Votre mot de passe doit faire au maximum {{ limit }} characteres"
+     * )
      */
     private $password;
 

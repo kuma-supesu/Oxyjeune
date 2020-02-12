@@ -83,7 +83,7 @@ class PlanningController extends AbstractController
                 return $this->redirectToRoute('planningInfo', ['slug' => $id] );
             }
         }
-        return $this->render('planning/modify.html.twig', ['form' => $form->createView(), 'slug' => $id]);
+        return $this->render('planning/modify.html.twig', ['form' => $form->createView(), 'planning' => $data, 'slug' => $id]);
     }
 
     /**
@@ -123,6 +123,23 @@ class PlanningController extends AbstractController
         $planning = $repository->findOneById($id);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($planning);
+        $entityManager->flush();
+        return $this->redirectToRoute('planningListe');
+    }
+
+    /**
+     * @Route("/planning/date/suppression/{slug}", name="dateSuppression")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function dateSuppressionAction(Request $request)
+    {
+        $id = $request->get('slug');
+        $repository = $this->getDoctrine()->getRepository(Journee::class);
+        $journee = $repository->findOneById($id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($journee);
         $entityManager->flush();
         return $this->redirectToRoute('planningListe');
     }

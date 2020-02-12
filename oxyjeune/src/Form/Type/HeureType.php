@@ -15,7 +15,11 @@ class HeureType extends AbstractType
         $builder->add('plageHoraire', TimeType::class, array(
             'widget' => 'single_text',
             'label' => false,
-            'attr' => ['class' => 'mt-3', 'style' => 'width: 10em'],
+            'required' => true,
+            'attr' => [
+                'class' => 'mt-3',
+                'style' => 'width: 10em'
+            ],
         ));
     }
 

@@ -31,7 +31,7 @@ class TableauPaiement
     private $moyenPaiement;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $sommeVersement;
 
@@ -70,12 +70,12 @@ class TableauPaiement
         return $this;
     }
 
-    public function getSommeVersement(): ?int
+    public function getSommeVersement(): ?string
     {
         return $this->sommeVersement;
     }
 
-    public function setSommeVersement(int $sommeVersement): self
+    public function setSommeVersement(string $sommeVersement): self
     {
         $this->sommeVersement = $sommeVersement;
 
