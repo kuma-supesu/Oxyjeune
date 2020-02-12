@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: 'sodium'
+            algorithm: 'argon2i'
     providers:
         in_memory: { memory: ~}
         in_database:
