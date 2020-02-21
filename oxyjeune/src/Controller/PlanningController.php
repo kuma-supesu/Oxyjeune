@@ -77,8 +77,10 @@ class PlanningController extends AbstractController
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $date = $data->getJournees()[0]->getDate();
-                $data->setDebut($date);
+                if ($data->getJournees()[0] != null) {
+                    $date = $data->getJournees()[0]->getDate();
+                    $data->setDebut($date);
+                }
                 $this->flushToDB($data);
                 return $this->redirectToRoute('planningInfo', ['slug' => $id] );
             }

@@ -281,7 +281,7 @@ class UserController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
-                return $this->redirectToRoute('userInfo', ['slug' => $id] );
+                return $this->redirectToRoute('userListe');
             }
         }
         return $this->render('user/modify.html.twig', ['form' => $form->createView(), 'slug' => $id]);
